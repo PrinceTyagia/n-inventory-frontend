@@ -39,22 +39,26 @@ const handleLogin = async () => {
     };
     const response = await loginMut(payload).unwrap();
     if (response.success) {
-      Cookies.set("accessToken",response.data.accessToken,{
-        httpOnly: true, 
+      console.log("res",response?.data?.accessToken);
+      let token = response?.data?.accessToken
+      let refreshToken = response?.data?.refreshToken
+      let user = response?.data?.user
+      
+      Cookies.set('accessToken', token, {
+        secure: true,      // true if your frontend is https
+        sameSite: 'lax',   // or 'None' if cross-origin
+        expires: 1,        // 1 day (in days, not milliseconds)
+      });
+      Cookies.set("refreshToken",refreshToken,{
+       
         secure: true, // because frontend is also https now
-        sameSite: 'none',
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-      })
-      Cookies.set("refreshToken",response.data.refreshToken,{
-        httpOnly: true, 
-        secure: true, // because frontend is also https now
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
-      Cookies.set("user",response.data.user,{
-        httpOnly: true, 
+      Cookies.set("user",user,{
+      
         secure: true, // because frontend is also https now
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       toast.success("Login Successful");
@@ -70,6 +74,7 @@ const handleLogin = async () => {
     
   } catch (error: any) {
     // console.log("error",error);
+    console.log("error",error);
     
     setResError(error?.data?.message);
     toast.error("Sign-in error", {
