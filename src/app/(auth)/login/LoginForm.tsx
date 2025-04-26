@@ -39,28 +39,29 @@ const handleLogin = async () => {
     };
     const response = await loginMut(payload).unwrap();
     if (response.success) {
-      console.log("res",response?.data?.accessToken);
       let token = response?.data?.accessToken
       let refreshToken = response?.data?.refreshToken
+      console.log("res",refreshToken);
       let user = response?.data?.user
       
       Cookies.set('accessToken', token, {
-        secure: true,      // true if your frontend is https
-        sameSite: 'lax',   // or 'None' if cross-origin
-        expires: 1,        // 1 day (in days, not milliseconds)
+        secure: true,         // true because frontend is https
+        sameSite: 'Lax',      // if both frontend and backend are same-site; otherwise use 'None'
+        expires: 1,           // 1 day (expires in 1 day)
       });
-      Cookies.set("refreshToken",refreshToken,{
-       
-        secure: true, // because frontend is also https now
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      })
-      Cookies.set("user",user,{
-      
-        secure: true, // because frontend is also https now
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      })
+    
+      Cookies.set('refreshToken', refreshToken, {
+        secure: true,
+        sameSite: 'Lax',
+        expires: 7,           // 7 days (not maxAge!)
+      });
+    
+      // If you also want to save user info (optional)
+      Cookies.set('user', JSON.stringify(user), {
+        secure: true,
+        sameSite: 'Lax',
+        expires: 7,           // 7 days
+      });
       toast.success("Login Successful");
       router.push("/dashboard");
     }else{
