@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
     }
     return NextResponse.next();
   }
-
+// hello
   const user = JSON.parse(decodeURIComponent(userCookie.value || '{}'));
 
   const role = user?.role;
