@@ -11,6 +11,7 @@ import Link from "next/link";
 import { LoginInputState, userLoginSchema } from "@/schema/userSchema";
 import { useLoginMutation } from "@/hooks/Api/auth/authHook";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -38,6 +39,24 @@ const handleLogin = async () => {
     };
     const response = await loginMut(payload).unwrap();
     if (response.success) {
+      Cookies.set("accessToken",response.data.accessToken,{
+        httpOnly: true, 
+        secure: true, // because frontend is also https now
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+      })
+      Cookies.set("refreshToken",response.data.refreshToken,{
+        httpOnly: true, 
+        secure: true, // because frontend is also https now
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      Cookies.set("user",response.data.user,{
+        httpOnly: true, 
+        secure: true, // because frontend is also https now
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
       toast.success("Login Successful");
       router.push("/dashboard");
     }else{
