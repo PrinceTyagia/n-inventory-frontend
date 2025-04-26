@@ -64,6 +64,8 @@ const Footer = () => {
                 src="/ninventoryPro.png"
                 alt="inventory log"
               unoptimized
+              width={20}
+              height={20}
               />
             </div>
           </Link>
