@@ -44,24 +44,24 @@ const handleLogin = async () => {
       console.log("res",refreshToken);
       let user = response?.data?.user
       
-      Cookies.set('accessToken', token, {
-        secure: true,         // true because frontend is https
-        sameSite: 'Lax',      // if both frontend and backend are same-site; otherwise use 'None'
-        expires: 1,           // 1 day (expires in 1 day)
-      });
+      // Cookies.set('accessToken', token, {
+      //   secure: true,         
+      //   sameSite: 'Lax',     
+      //   expires: 1,          
+      // });
     
-      Cookies.set('refreshToken', refreshToken, {
-        secure: true,
-        sameSite: 'Lax',
-        expires: 7,           // 7 days (not maxAge!)
-      });
+      // Cookies.set('refreshToken', refreshToken, {
+      //   secure: true,
+      //   sameSite: 'Lax',
+      //   expires: 7,          
+      // });
     
-      // If you also want to save user info (optional)
-      Cookies.set('user', JSON.stringify(user), {
-        secure: true,
-        sameSite: 'Lax',
-        expires: 7,           // 7 days
-      });
+      // // If you also want to save user info (optional)
+      // Cookies.set('user', JSON.stringify(user), {
+      //   secure: true,
+      //   sameSite: 'Lax',
+      //   expires: 7,         
+      // });
       toast.success("Login Successful");
       router.push("/dashboard");
     }else{

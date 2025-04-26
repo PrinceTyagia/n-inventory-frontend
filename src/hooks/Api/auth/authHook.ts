@@ -6,7 +6,7 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl:process.env.NEXT_PUBLIC_BASE_URL,
-    // credentials: 'include',
+    credentials: 'include',
     prepareHeaders: (headers) => {
       const organisationId = Cookies.get('organisationId'); // Get the cookie value
       if (organisationId) {
