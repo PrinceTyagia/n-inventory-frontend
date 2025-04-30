@@ -24,7 +24,7 @@ export const authApi = createApi({
 
     // Set headers only if values exist
     if (organisationId) {
-      headers.set('organization-id', organisationId);
+      headers.set('orgId', organisationId);
     }
 
     if (token) {
