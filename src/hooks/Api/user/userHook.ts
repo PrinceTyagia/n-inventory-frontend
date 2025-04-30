@@ -7,10 +7,28 @@ export const userApi = createApi({
     baseUrl:process.env.NEXT_PUBLIC_BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers) => {
-      const organisationId = Cookies.get('organisationId'); // Get the cookie value
-      if (organisationId) {
-        headers.set('organization-id', organisationId);
+      const token = Cookies.get('accessToken');
+    const userCookie = Cookies.get('user');
+
+    let organisationId: string | undefined;
+
+    if (userCookie) {
+      try {
+        const user = JSON.parse(userCookie);
+        organisationId = user.organisationId || user.organizationId;
+      } catch (error) {
+        console.error('Failed to parse user cookie:', error);
       }
+    }
+
+    // Set headers only if values exist
+    if (organisationId) {
+      headers.set('organization-id', organisationId);
+    }
+
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
       return headers;
     },
   }),
