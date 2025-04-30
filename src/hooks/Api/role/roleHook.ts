@@ -4,13 +4,12 @@ import Cookies from 'js-cookie';
 export const roleApi = createApi({
   reducerPath: 'roleApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/v1',
+    baseUrl:process.env.NEXT_PUBLIC_BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers) => {
-      const user = JSON.parse(Cookies.get('user') || '{}');      
-      const organisationId = user.organisationId
+      const organisationId = Cookies.get('organisationId'); // Get the cookie value
       if (organisationId) {
-        headers.set('orgId', organisationId);
+        headers.set('organization-id', organisationId);
       }
       return headers;
     },
