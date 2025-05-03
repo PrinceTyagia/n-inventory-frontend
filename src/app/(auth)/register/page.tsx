@@ -57,12 +57,13 @@ const Page = () => {
         })
       }
       setFieldError({})
-      console.log("payload",payload);
-       // Proceed with API call
+      
     } catch (error:any) {
       setResError(error?.data?.message)
-      console.log("error",error);
-      
+      toast.error("Account Creation Failed!",{
+        description:error?.data?.message
+      })
+    
       setFieldError({})
     }
    

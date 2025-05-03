@@ -39,7 +39,10 @@ const columns: GridColDef[] = [
       <div className="flex justify-center items-center p-2">
         <Image
         unoptimized
-          alt={params?.row?.name}
+        width={10}
+        height={10}
+        priority
+          alt={params?.row?.firstName}
           src={params?.value || "/placeholder.webp"}
           className="w-10 h-10 rounded-full object-cover"
         />
@@ -115,7 +118,7 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const [roleId, setRoleId] = useState("");
   const [invite,setInvite] = useState(false)
-  console.log("invite",invite);
+  // console.log("invite",invite);
   
   const [debouncedValue, setValue] = useDebounceValue("", 500);
   const user = JSON.parse(Cookies.get("user") || "{}");
@@ -146,23 +149,27 @@ const Page = () => {
 
   return (
     <Tabs value={invite ? "invites" : "users"}>
-    <TabsList>
-    <TabsTrigger
-      className="w-44 hover:text-[#d72325] cursor-pointer"
-      value="users"
-      onClick={() => setInvite(false)}
-    >
-      Users
-    </TabsTrigger>
-
-    <TabsTrigger
-      className="hover:text-[#d72325] cursor-pointer"
-      value="invites"
-      onClick={() => setInvite(true)}
-    >
-      Invites
-    </TabsTrigger>
-      </TabsList>
+      {
+        !isSuperAdmin && (<TabsList>
+          <TabsTrigger
+            className="w-44 hover:text-[#d72325] cursor-pointer"
+            value="users"
+            onClick={() => setInvite(false)}
+          >
+            Users
+          </TabsTrigger>
+          
+      
+          <TabsTrigger
+            className="hover:text-[#d72325] cursor-pointer"
+            value="invites"
+            onClick={() => setInvite(true)}
+          >
+            Invites
+          </TabsTrigger>
+            </TabsList>)
+      }
+    
 
       <TabsContent value={invite ? "invites" : "users"}>
         <div className="flex items-center justify-between mb-4">

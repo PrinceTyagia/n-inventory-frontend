@@ -17,7 +17,7 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams  = useSearchParams()
 const [formInput, setFormInput] = useState<LoginInputState>({
-  email: "",
+  email: searchParams?.get("email") || "",
   password: "",
 });
 const [fieldErrors, setFieldError] = useState<Partial<LoginInputState>>({});
@@ -41,7 +41,7 @@ const handleLogin = async () => {
     if (response.success) {
       let token = response?.data?.accessToken
       let refreshToken = response?.data?.refreshToken
-      console.log("res",refreshToken);
+      // console.log("res",refreshToken);
       let user = response?.data?.user
       
       Cookies.set('accessToken', token, {
@@ -114,7 +114,7 @@ const handleLogin = async () => {
                   <Label>Email</Label>
                   <Input
                     type="email"
-                    value={formInput.email || searchParams?.get("email") || ""}
+                    value={formInput.email  || ""}
                     onChange={(e) => setFormInput({ ...formInput, email: e.target.value })}
                     placeholder="Email"
                     className="bg-white h-10 rounded-none"

@@ -86,7 +86,10 @@ const PermissionModuleList: React.FC = () => {
   const [roleDescription, setRoleDescription] = useState("");
   const [putRoleByOrg, { isLoading, isSuccess, error }] =
   usePutRoleByOrgMutation();
-  const { data } = useGetRoleByOrgQuery({ roleId: params.roleId });
+  const { data, refetch } = useGetRoleByOrgQuery(
+    { roleId: params.roleId },
+    { refetchOnMountOrArgChange: true,pollingInterval: 0 }
+  );
 
   useEffect(() => {
     if (data?.role) {
@@ -95,7 +98,8 @@ const PermissionModuleList: React.FC = () => {
       setSelectedPermissions(data.role.permissions || []);
     }
   }, [data]);
-
+  console.log("selectedPermissions",selectedPermissions);
+  
   const handleSubmit = async () => {
     // console.log("Submitting permissions:", selectedPermissions);
     if (!roleName || !roleDescription) {

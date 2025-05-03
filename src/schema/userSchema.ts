@@ -30,19 +30,8 @@ export const userSignupSchema = z.object({
 export type SignupInputState = z.infer<typeof userSignupSchema>;
 export const userLoginSchema = z.object({
   email: z
-    .string()
-    .trim()
-    .refine(
-      (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-      { message: "Invalid email address format" }
-    )
-    .refine(
-      (email) =>
-        /@(?:gmail\.com|yahoo\.com|outlook\.com|example\.com|lupin\.com|cipla\.com|gmail\.com)$/i.test(email),
-      {
-        message: "Only Gmail, Yahoo, Outlook, Example, Lupin, or Cipla emails are allowed",
-      }
-    ),
+  .string()
+  .email("Invalid email address"),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters long")

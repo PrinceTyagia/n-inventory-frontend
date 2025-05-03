@@ -147,37 +147,7 @@ export const sidebarItems = [
       },
     ],
   },
-  {
-    label: "Warehouses",
-    icon: "🏬",
-    children: [
-      {
-        label: "📍 All Locations",
-        path: "/dashboard/warehouse/all-locations",
-        permission: "warehouse.read",
-      },
-      {
-        label: "➕ Add Warehouse",
-        path: "/dashboard/warehouse/add",
-        permission: "warehouse.add",
-      },
-      {
-        label: "🔁 Transfer Stock",
-        path: "/dashboard/warehouse/transfer-stock",
-        permission: "warehouse.transfer",
-      },
-      {
-        label: "📦 Stock per Location",
-        path: "/dashboard/warehouse/location-stock",
-        permission: "warehouse.stock.read",
-      },
-      {
-        label: "🌡️ Cold Chain Monitor",
-        path: "/dashboard/warehouse/cold-chain",
-        permission: "cold-chain.read",
-      },
-    ],
-  },
+
   {
     label: "Orders",
     icon: "📦",
@@ -375,34 +345,39 @@ export const sidebarItems = [
     permission: "settings.read",
     children: [
       {
+        label: "📍 All Locations",
+        path: "/dashboard/warehouse/all-locations",
+        permission: "warehouse.read",
+      },
+      {
         label: "🏢 Organization Settings",
         path: "/dashboard/settings/organization",
-        permission: "settings.organization.read",
+        permission: "organization.read",
       },
       {
         label: "💰 Tax Settings",
         path: "/dashboard/settings/tax",
-        permission: "settings.tax.read",
+        permission: "settings.read",
       },
       {
         label: "📦 Units & Categories",
         path: "/dashboard/settings/units-categories",
-        permission: "settings.units-categories.read",
+        permission: "settings.read",
       },
       {
         label: "🏷️ Brand Management",
         path: "/dashboard/settings/brands",
-        permission: "settings.brands.read",
+        permission: "settings.read",
       },
       {
         label: "💸 Pricing Rules",
         path: "/dashboard/settings/pricing-rules",
-        permission: "settings.pricing-rules.read",
+        permission: "settings.read",
       },
       {
         label: "📃 Billing Plan",
         path: "/dashboard/settings/billing",
-        permission: "settings.billing.read",
+        permission: "settings.read",
       },
     ],
   },

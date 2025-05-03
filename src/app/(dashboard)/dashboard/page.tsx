@@ -3,15 +3,20 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 const Page = () => {
-  const [orgId, setOrgId] = useState<string | null>(null);
-  const [orgName, setOrgName] = useState<string | null>(null);
-
+  const [userData, setUserData] = useState<any>(null);
+  
   useEffect(() => {
-    const organisationId = Cookies?.get("organisationId");
-    const organisationName = Cookies?.get("organisationName");
+    const userObject = Cookies?.get("user");
 
-    setOrgId(organisationId || null);
-    setOrgName(organisationName || null);
+    if (userObject) {
+      try {
+        const jsonStr = decodeURIComponent(userObject);
+        const dataJson = JSON.parse(jsonStr);
+        setUserData(dataJson);
+      } catch (error) {
+        console.error("Failed to parse user cookie:", error);
+      }
+    }
   }, []);
 
   return (
@@ -19,8 +24,8 @@ const Page = () => {
       <div className="bg-white shadow-xl rounded-xl p-6 w-full max-w-md border border-gray-200">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">📘 Organisation Info</h2>
         <div className="space-y-2 text-gray-700">
-          <p><span className="font-semibold">Organisation ID:</span> {orgId || "Not found"}</p>
-          <p><span className="font-semibold">Organisation Name:</span> {orgName || "Not found"}</p>
+          <p><span className="font-semibold">Organisation ID:</span> {userData?.organisationId || "Not found"}</p>
+          <p><span className="font-semibold">Organisation Name:</span> {userData?.organisation || "Not found"}</p>
         </div>
       </div>
     </div>

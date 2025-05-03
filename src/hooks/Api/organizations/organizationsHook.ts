@@ -9,9 +9,7 @@ export const orgApi = createApi({
     prepareHeaders: (headers) => {
       const token = Cookies.get('accessToken');
       const userCookie = Cookies.get('user');
-  
-      let organisationId: string | undefined;
-  
+      let organisationId: string | undefined; 
       if (userCookie) {
         try {
           const user = JSON.parse(userCookie);
@@ -20,7 +18,6 @@ export const orgApi = createApi({
           console.error('Failed to parse user cookie:', error);
         }
       }
-  
       // Set headers only if values exist
       if (organisationId) {
         headers.set('orgId', organisationId);
@@ -34,26 +31,6 @@ export const orgApi = createApi({
   }),
   tagTypes:['Organization'],
   endpoints: (builder) => ({
-    getAllOrganizations: builder.query({
-      query: ({ page = 1, limit = 10, name = '', roleId = '' }) => ({
-        url: `/org/all-org?page=${page}&limit=${limit}&search=${name}&roleId=${roleId}`,
-        method: 'GET',
-      }),
-      providesTags:['Organization']
-    }),
-    getOrganizationsById: builder.query({
-      query: ({ orgId  }) => ({
-        url: `/org/${orgId}`,
-        method: 'GET',
-      }),
-    }),
-    deleteOrganization: builder.mutation({
-      query: (orgId: string) => ({
-        url: `/org/${orgId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Organization"], // adjust according to your tags
-    }),
     createOrganization:builder.mutation({
       query: (payload) => ({
         url: `org/create-org`,
@@ -68,7 +45,42 @@ export const orgApi = createApi({
         body: credentials,
       }),
     }),
+    resendOtp:builder.mutation({
+      query: (credentials) => ({
+        url: '/org/resend-otp',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    getAllOrganizations: builder.query({
+      query: ({ page = 1, limit = 10, name = '', roleId = '' }) => ({
+        url: `/org/all-org?page=${page}&limit=${limit}&search=${name}&roleId=${roleId}`,
+        method: 'GET',
+      }),
+      providesTags:['Organization']
+    }),
+    getOrganizations: builder.query({
+      query: () => ({
+        url: `/org/org-me`,
+        method: 'GET',
+      }),
+    }),
+    deleteOrganization: builder.mutation({
+      query: (orgId: string) => ({
+        url: `/org/${orgId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Organization"], // adjust according to your tags
+    }),
+    getTrialOrganizations:builder.query({
+      query:({orgId}) => ({
+        url:`/org/${orgId}/trial-status`,
+        method:"GET"
+      })
+    })
+  
   }),
 });
 
-export const { useGetAllOrganizationsQuery , useGetOrganizationsByIdQuery,useDeleteOrganizationMutation, useCreateOrganizationMutation,useVerifyOtpMutation } = orgApi;
+export const { useGetAllOrganizationsQuery , useGetOrganizationsQuery,
+  useDeleteOrganizationMutation, useCreateOrganizationMutation,useVerifyOtpMutation,useResendOtpMutation, useGetTrialOrganizationsQuery } = orgApi;
